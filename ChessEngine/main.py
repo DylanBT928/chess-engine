@@ -2,13 +2,18 @@ import pygame
 
 from ChessEngine.data.board import Board
 
+# Window dimensions
 SCREEN_WIDTH = 562
 SCREEN_HEIGHT = 562
+
+# Load window icon
+icon = pygame.image.load('resources/icon.png')
 
 # Initialize Pygame
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Chess Engine')
+pygame.display.set_icon(icon)
 clock = pygame.time.Clock()
 running = True
 
