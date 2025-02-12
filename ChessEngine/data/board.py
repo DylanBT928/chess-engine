@@ -111,7 +111,7 @@ class Board:
         """Converts the bitboard list into a FEN string."""
         # Display piece placement of each rank in FEN
         bitboard = self.create_bitboard()
-        pieces = []
+        current_pieces = []
 
         for rank in bitboard:
             empty_count = 0
@@ -128,10 +128,10 @@ class Board:
 
             if empty_count > 0:
                 piece += str(empty_count)
-            pieces.append(piece)
+            current_pieces.append(piece)
 
         # Join ranks with '/'
-        piece_placement = '/'.join(pieces)
+        piece_placement = '/'.join(current_pieces)
 
         # Create FEN string
         fen_string = (f'{piece_placement} {self.turn} {self.castling_rights} '
