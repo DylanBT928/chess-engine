@@ -35,10 +35,10 @@ class Board:
             'black_knights': 0x4200000000000000,  # B8, G8
             'white_bishops': 0x0000000000000024,  # C1, F1
             'black_bishops': 0x2400000000000000,  # C8, F8
-            'white_queens': 0x0000000000000010,  # D1
-            'black_queens': 0x1000000000000000,  # D8
-            'white_kings': 0x0000000000000008,  # E1
-            'black_kings': 0x0800000000000000,  # E8
+            'white_queens': 0x0000000000000008,  # D1
+            'black_queens': 0x0800000000000000,  # D8
+            'white_kings': 0x0000000000000010,  # E1
+            'black_kings': 0x1000000000000000  # E8
         }
         self.turn = 'w'
         self.castling_rights = 'KQkq'
