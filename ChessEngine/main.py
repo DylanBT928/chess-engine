@@ -20,6 +20,10 @@ running = True
 # Initialize game
 board = Board()
 
+# Prints the starting bitboard and FEN string
+print(board.display_bitboard())
+print(board.bitboard_to_fen())
+
 # Main loop
 while running:
     # Poll for events
@@ -34,6 +38,7 @@ while running:
 
     # RENDER GAME
     board.draw_board(screen)
+    board.draw_pieces(screen)
 
     # Update the display
     pygame.display.flip()

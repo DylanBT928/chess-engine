@@ -1,5 +1,24 @@
 import pygame
 
+from ChessEngine.data.piece import load_piece
+
+
+pieces = {
+    'P': load_piece('PAWN'), # White pawn
+    'p': load_piece('pawn'), # Black pawn
+    'R': load_piece('ROOK'), # White rook
+    'r': load_piece('rook'), # Black rook
+    'N': load_piece('KNIGHT'), # White knight
+    'n': load_piece('knight'), # Black knight
+    'B': load_piece('BISHOP'), # White bishop
+    'b': load_piece('bishop'), # Black bishop
+    'Q': load_piece('QUEEN'), # White queen
+    'q': load_piece('queen'), # Black queen
+    'K': load_piece('KING'), # White king
+    'k': load_piece('king') # Black king
+}
+
+
 class Board:
     def __init__(self):
         """Creates a chess board."""
@@ -35,8 +54,18 @@ class Board:
         for x in range(self.ranks):
             for y in range(self.files):
                 color = colors[(x + y) % 2]
-                pygame.draw.rect(screen, color, [x * self.tile_size + self.offset,
-                                                 y * self.tile_size + self.offset, 64, 64])
+                pygame.draw.rect(screen, color, [x * self.tile_size + self.offset, y * self.tile_size + self.offset, 64, 64])
+
+
+    def draw_pieces(self, screen: pygame.display) -> None:
+        """Displays the chess pieces onto the screen according to the bitboard."""
+        bitboard = self.create_bitboard()
+
+        for x in range(self.ranks):
+            for y in range(self.files):
+                piece = bitboard[x][y]
+                if piece != '.':
+                    screen.blit(pieces[piece], (y * self.tile_size + self.offset, x * self.tile_size + self.offset))
 
 
     def create_bitboard(self) -> list:
