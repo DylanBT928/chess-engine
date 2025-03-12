@@ -1,6 +1,6 @@
 import pygame
 
-from ChessEngine.data.board import Board
+from board import Board
 
 # Window dimensions
 SCREEN_WIDTH = 562

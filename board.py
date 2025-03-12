@@ -1,6 +1,6 @@
 import pygame
 
-from ChessEngine.data.piece import load_piece
+from piece import load_piece
 
 
 pieces = {
