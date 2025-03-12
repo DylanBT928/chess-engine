@@ -5,13 +5,14 @@ import chess
 
 
 # Define window dimensions
-SCREEN_WIDTH = 562
-SCREEN_HEIGHT = 562
+SCREEN_WIDTH = 512
+SCREEN_HEIGHT = 512
 
 
 # Define board colors
 LIGHT_SQUARE = (207, 182, 190) # Light gray
 DARK_SQUARE = (97, 155, 138) # Green
+HIGHLIGHT_COLOR = (255, 255, 0) # Yellow
 
 
 def invert_color(img: pygame.Surface) -> pygame.Surface:
@@ -65,16 +66,17 @@ running = True
 
 # Initialize chess board
 board = chess.Board()
+selected_square = None
+legal_moves = []
 
 
 def draw_board() -> None:
     """Draws the board to the Pygame window."""
-    offset = 25
     for rank in range(8):
         for file in range(8):
             # Draw board
             color = LIGHT_SQUARE if (rank + file) % 2 == 0 else DARK_SQUARE
-            rect = pygame.Rect(file * 64 + offset, rank * 64 + offset, 64, 64)
+            rect = pygame.Rect(file * 64, rank * 64, 64, 64)
             pygame.draw.rect(screen, color, rect)
 
             # Draw pieces
@@ -84,6 +86,30 @@ def draw_board() -> None:
                 piece_image = piece_images[piece.color][piece.piece_type]
                 piece_image = pygame.transform.scale(piece_image, (64, 64))
                 screen.blit(piece_image, rect.topleft)
+
+
+def draw_highlights() -> None:
+    """Draws the highlights of the selected piece and legal moves."""
+    if selected_square:
+        file = chess.square_file(selected_square)
+        rank = 7 - chess.square_rank(selected_square)
+        rect = pygame.Rect(file * 64, rank * 64, 64, 64)
+        pygame.draw.rect(screen, HIGHLIGHT_COLOR, rect, 4)
+
+        for move in legal_moves:
+            file = chess.square_file(move.to_square)
+            rank = 7 - chess.square_rank(move.to_square)
+            rect = pygame.Rect(file * 64, rank * 64, 64, 64)
+            pygame.draw.circle(screen, HIGHLIGHT_COLOR, rect.center, 10)
+
+
+
+def get_square(pos: tuple) -> int:
+    """Gets the chess square from the mouse position."""
+    x, y = pos
+    file = x // 64
+    rank = 7 - (y // 64)
+    return chess.square(file, rank)
 
 
 # Main loop
@@ -99,10 +125,30 @@ while running:
             if event.key == pygame.K_ESCAPE:
                 running = False
 
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            square = get_square(pos)
+
+            if selected_square:
+                move = chess.Move(selected_square, square)
+                if move in legal_moves:
+                    board.push(move)
+                    selected_square = None
+                    legal_moves = []
+                else:
+                    selected_square = square if board.piece_at(square) else None
+                    legal_moves = [m for m in board.legal_moves if m.from_square == selected_square]
+            else:
+                if board.piece_at(square) and board.piece_at(square).color == board.turn:
+                    selected_square = square
+                    legal_moves = [m for m in board.legal_moves if m.from_square == selected_square]
+
+
     screen.fill((36, 35, 37))
 
     # RENDER GAME
     draw_board()
+    draw_highlights()
 
     # Update the display
     pygame.display.flip()
