@@ -7,11 +7,13 @@ A fully functional chess game built using Python and Pygame. This project featur
 
 - Python 3.x
 - Pygame
+- Python-Chess
 
 Install them using:
 
 ```
-pip install pygame
+pip3 install pygame
+pip3 install chess
 ```
 
 
