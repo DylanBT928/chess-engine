@@ -153,4 +153,10 @@ while running:
     # Update the display
     pygame.display.flip()
 
+    # Check game over
+    if board.is_game_over():
+        print('Game Over!')
+        print(f'Result: {board.result()}')
+        running = False
+
 pygame.quit()
