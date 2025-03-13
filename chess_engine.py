@@ -131,6 +131,11 @@ while running:
             if selected_square is not None:
                 move = chess.Move(selected_square, square)
 
+                if board.piece_type_at(selected_square) == chess.PAWN:
+                    if (chess.square_rank(square) == 7 and board.turn == chess.WHITE) or \
+                            (chess.square_rank(square) == 0 and board.turn == chess.BLACK):
+                        move.promotion = chess.QUEEN
+
                 if move in legal_moves:
                     board.push(move)
                     selected_square = None
