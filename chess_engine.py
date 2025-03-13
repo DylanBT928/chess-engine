@@ -128,7 +128,7 @@ while running:
             pos = pygame.mouse.get_pos()
             square = get_square(pos)
 
-            if selected_square:
+            if selected_square is not None:
                 move = chess.Move(selected_square, square)
 
                 if move in legal_moves:
